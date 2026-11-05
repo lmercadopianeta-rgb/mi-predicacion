@@ -1,0 +1,32 @@
+MI PREDICADOR - PWA
+====================
+
+CONTENIDO
+- index.html: interfaz de la aplicación
+- app.js: funcionamiento del editor, biblioteca y modo predicación
+- manifest.webmanifest: configuración instalable
+- sw.js: caché para uso sin conexión
+- icons/: iconos de la aplicación
+
+IMPORTANTE
+Una PWA necesita publicarse en un sitio HTTPS para poder instalarse y activar el modo sin conexión.
+Abrir index.html directamente como archivo local NO activa la instalación PWA.
+
+PASOS RECOMENDADOS
+1. Descomprime este ZIP en un computador.
+2. Publica el contenido completo de la carpeta en un hosting estático HTTPS (por ejemplo GitHub Pages o Netlify).
+3. Abre la dirección HTTPS en Chrome desde tu Motorola.
+4. Espera a que cargue una vez con internet.
+5. En Chrome: menú ⋮ > Instalar aplicación (o Añadir a pantalla principal, según la versión).
+6. Confirma. Aparecerá Mi Predicador en tu pantalla de inicio.
+
+USO SIN INTERNET
+Después de abrirla una primera vez con conexión y de que termine de cargar, la aplicación guarda sus archivos básicos en caché. Los sermones se almacenan localmente en el navegador/dispositivo. No borres los datos del sitio ni del navegador sin antes exportar una copia JSON.
+
+COPIAS DE SEGURIDAD
+En Preparar sermón, pulsa "Exportar copia JSON". Guarda el archivo en un lugar seguro. En Biblioteca puedes importar una copia JSON.
+
+NOTAS
+- No incluye sincronización entre varios teléfonos.
+- Los datos se almacenan en el dispositivo; exporta respaldos periódicamente.
+- Para actualizar la app después de cambiar archivos, incrementa CACHE en sw.js (por ejemplo mi-predicador-v2) y vuelve a publicar.

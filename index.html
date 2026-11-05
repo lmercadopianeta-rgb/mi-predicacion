@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172554">
+<meta name="description" content="Prepara, organiza y presenta tus sermones.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<title>Mi Predicador</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#172033;--muted:#667085;--line:#dce2ec;--blue:#234a91;--blue2:#172554}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:var(--blue2);color:white;padding:18px 16px 12px;position:sticky;top:0;z-index:5}
+h1{font-size:21px;margin:0}header p{font-size:12px;margin:3px 0 0;color:#dbeafe}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:65px;z-index:4}
+nav button{flex:1;border:0;background:none;padding:14px 5px;font-weight:700;color:var(--muted);border-bottom:3px solid transparent}
+nav button.active{color:var(--blue);border-color:var(--blue)}
+main{max-width:850px;margin:auto;padding:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+h2{font-size:17px;margin:0 0 12px}.field{display:block;margin:10px 0;font-size:13px;font-weight:650}
+input,select{display:block;width:100%;margin-top:5px;padding:11px;border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink);font:inherit;font-size:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.toolbar{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}
+button,.btn{cursor:pointer}.tool,.action{border:1px solid var(--line);background:white;color:var(--ink);border-radius:9px;padding:9px 11px;font-weight:650;font-size:13px}
+.primary{background:var(--blue);color:white;border-color:var(--blue)}
+.editor{min-height:130px;border:1px solid var(--line);border-radius:9px;padding:12px;line-height:1.6;outline-color:var(--blue);overflow-wrap:anywhere;background:#fff}
+.editor:empty:before{content:attr(data-placeholder);color:#98a2b3}
+.section{border:1px solid var(--line);border-radius:11px;padding:12px;margin-top:12px}
+.small{font-size:12px;color:var(--muted)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sermon-item{display:flex;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.sermon-item .info{flex:1;min-width:0}.sermon-item strong{display:block;overflow-wrap:anywhere}
+.hidden{display:none!important}
+.slide{min-height:48vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px 10px}
+.slide-label{font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:20px}
+.slide-content{font-size:clamp(26px,6vw,46px);line-height:1.5;font-weight:600;overflow-wrap:anywhere;width:100%}
+.nextbox{width:100%;text-align:left;background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:13px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#172554;color:white;padding:10px 15px;border-radius:10px;display:none;z-index:10;max-width:90vw}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.slide{min-height:42vh}}
+@media print{header,nav,.no-print{display:none!important}body{background:white}.panel{border:0}}
+</style>
+</head>
+<body>
+<header><h1>📖 Mi Predicador</h1><p>Preparación y presentación de sermones · Funciona sin conexión</p></header>
+<nav class="no-print"><button class="active" data-tab="prepare">✍️ Preparar sermón</button><button data-tab="preach">📖 Predicación</button><button data-tab="library">▤ Biblioteca</button></nav>
+<main>
+<section id="prepare">
+ <div class="panel">
+  <h2>Información del sermón</h2>
+  <label class="field">Título<input id="sermonTitle" placeholder="Escribe el título del sermón"></label>
+  <div class="grid"><label class="field">Fecha<input id="sermonDate" type="date"></label><label class="field">Lugar<input id="sermonPlace" placeholder="Ej. IPUC Armenia"></label></div>
+  <label class="field">Cita bíblica<input id="sermonVerse" placeholder="Ej. Jeremías 29:11"></label>
+ </div>
+ <div class="panel">
+  <h2>Editor de texto</h2>
+  <div class="toolbar no-print">
+   <select id="fontFamily" aria-label="Tipo de letra" style="width:auto;flex:1"><option>Arial</option><option>Georgia</option><option>Times New Roman</option><option>Verdana</option><option>Trebuchet MS</option></select>
+   <select id="fontSize" aria-label="Tamaño" style="width:auto"><option value="2">Pequeña</option><option value="3" selected>Normal</option><option value="4">Grande</option><option value="5">Muy grande</option><option value="6">Extra grande</option><option value="7">Máxima</option></select>
+   <label class="tool">Color <input id="fontColor" type="color" value="#234a91" style="display:inline;width:28px;height:23px;padding:0;vertical-align:middle"></label>
+  </div>
+  <div class="toolbar no-print">
+   <button class="tool" data-cmd="bold"><b>B</b></button><button class="tool" data-cmd="italic"><i>I</i></button><button class="tool" data-cmd="underline"><u>U</u></button>
+   <button class="tool" data-cmd="justifyLeft">Izquierda</button><button class="tool" data-cmd="justifyCenter">Centrar</button><button class="tool" data-cmd="insertUnorderedList">• Lista</button>
+   <button class="tool" id="copyAll">Copiar todo</button>
+  </div>
+  <p class="small">Selecciona el texto y aplica el formato que necesites.</p>
+  <div id="editors"></div>
+ </div>
+ <div class="toolbar no-print"><button id="save" class="action primary">✓ Guardar sermón</button><button id="new" class="action">Nuevo sermón</button><button id="export" class="action">Exportar copia JSON</button></div>
+ <p id="status" class="small" role="status"></p>
+</section>
+<section id="preach" class="hidden">
+ <div class="panel row"><div><h2 style="margin:0">Modo predicación</h2><div id="preachMeta" class="small">Sermón actual</div></div><button id="fullscreen" class="action">⛶ Pantalla completa</button></div>
+ <div class="panel">
+  <div class="row small"><span id="counter">Aspecto 1</span><span>Presentación</span></div>
+  <div id="slide" class="slide"><div id="slideLabel" class="slide-label">CITA BÍBLICA</div><div id="slideContent" class="slide-content">Tu cita aparecerá aquí.</div></div>
+  <div class="toolbar no-print"><button id="prev" class="action">← Anterior</button><button id="next" class="action primary">Siguiente →</button></div>
+ </div>
+ <div class="panel"><h2>Siguiente aspecto</h2><button id="nextPreview" class="nextbox"><div class="small">PULSA PARA AVANZAR</div><strong id="nextText">Título</strong></button></div>
+ <div class="panel"><h2>Ir directamente a un aspecto</h2><div id="slideList" class="toolbar"></div></div>
+ <div class="panel no-print"><label class="field">Tamaño de letra de predicación<input id="slideSize" type="range" min="20" max="64" value="40"></label></div>
+</section>
+<section id="library" class="hidden"><div class="panel"><h2>Mis sermones guardados</h2><div id="savedList"></div><p class="small">Los sermones se guardan en este dispositivo. Exporta una copia de seguridad periódicamente.</p><label class="field">Importar copia JSON<input type="file" id="importFile" accept=".json,application/json"></label></div></section>
+</main>
+<div id="toast" role="status"></div>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
+<script src="app.js"></script>
+</body></html>
